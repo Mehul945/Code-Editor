@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import tkinter as tk
 from tkinter.filedialog import asksaveasfile, askopenfile
 from tkinter.commondialog import Dialog
@@ -20,19 +21,20 @@ def save_as():
         f.write(name.get("1.0", "end-1c"))
 
 
-def save():
+def save(*args):
     global f
+    f=open(f.name,"w+")
     if f != None:
         f.write(name.get("1.0", "end-1c"))
 
 def open_file():
     global f
-    f = askopenfile(initialfile='Untitled.txt', defaultextension=".txt", \
-            filetypes=[("All Files", "*.*"), ("Text Documents", "*.txt")], mode='w+')
-    if f != None:
-        text=f.read()
-        name.insert("end",text)
-        del text
+    f = askopenfile(initialfile='Untitled.txt', defaultextension=".txt", filetypes=[("All Files", "*.*"), ("Text Documents", "*.txt")], mode='r')
+    #if f != None:
+    name.delete("1.0","end")
+    text=f.read()
+    name.insert("1.0",text)
+    del text
 
 win = tk.Tk()
 win.geometry("720x480")
@@ -64,16 +66,7 @@ name.configure(yscrollcommand=scrl.set)
 name.pack(side='bottom')
 scrl.pack(side='right',fill='y')
 win.config(menu=menu)
-k=0
-def show(key):
-    global k
-    if (key.keycode!=17 | key.keycode!=83) | k>=100:
-        k=0
-    else:
-        k+=key.keycode
-    if k==100:
-        save()
 
-win.bind("<KeyRelease>",show)
+
+win.bind("<Control-Key-s>",save)
 win.mainloop()
-
