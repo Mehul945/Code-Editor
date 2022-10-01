@@ -70,4 +70,3 @@ win.config(menu=menu)
 
 win.bind("<Control-Key-s>",save)
 win.mainloop()
-
